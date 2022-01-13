@@ -1,0 +1,14 @@
+.CustomAddress a {
+  cursor: default !important;
+}
+
+.CustomAddress .anticon-copy {
+  cursor: pointer !important;
+}
+
+.CustomAddress {
+  /* font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; */
+  font-family: "Roboto Mono", monospace;
+  font-weight: 300;
+  /* opacity: 0.9; */
+}
