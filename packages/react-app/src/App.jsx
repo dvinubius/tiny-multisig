@@ -37,7 +37,7 @@ import SingleMultiSigPage from "./views/SingleMultiSigPage";
 const { ethers } = require("ethers");
 
 /// 📡 What chain are your contracts deployed to?
-const defaultTargetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const defaultTargetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -77,7 +77,7 @@ const App = props => {
 
   // load all your providers
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
+    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl2,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
@@ -165,6 +165,7 @@ const App = props => {
   // CREATED CONTRACTS
 
   // ** 📟 Listen for broadcast events
+  // const createMultiSigSafeEvents = useEventListener(readContracts, "MSFactory", "CreateMultiSigSafe", localProvider, 1);
   const createMultiSigSafeEvents = useEventListener(readContracts, "MSFactory", "CreateMultiSigSafe", localProvider, 1);
   console.log("📟 CreateMultiSigSafe events:", createMultiSigSafeEvents);
 
@@ -390,7 +391,7 @@ const App = props => {
             }}
             className="hud hudTop"
           >
-            <div style={{ display: "flex", flex: 1, gap: "0.5rem", alignItems: "center" }}>
+            <div style={{ display: "flex", flex: 1, gap: "1rem", alignItems: "center" }}>
               <div>
                 <NetworkSwitch
                   networkOptions={networkOptions}

@@ -1,7 +1,10 @@
 # Tiny Multi Sig 
 
-An **minimal** multi sig wallet app built with scaffold eth.
+An **minimal** multi sig wallet app built with scaffold eth. 
+
 ## Live on [Rinkeby](https://tiny-multisig.surge.sh) 🤩
+
+In many ways just a Proof of Concept, not suitable for production.
 
 ## Specs
 
@@ -27,36 +30,47 @@ As a user I can also view existing safes, without the right to interact with the
 
 ## @dev
 
-Burner wallets turned off in local development to closer resemble production use.
+### Burner wallets
+Burner wallets turned off in local development to closer resemble production use:
+
+See App.jsx:
+
+> const userProviderAndSigner = useUserProviderAndSigner(injectedProvider);
+ 
+Turn them on by using the usual
+
+> const userProviderAndSigner = useUserProviderAndSigner(injectedProvider, localProvider);
+
+### useContext()
 
 useContext() used extensively for values like userSigner, localProvider, gasPrice etc.
 
-Custom kit of scaffold-eth components
-- more customizable
-- refactored for cleaner code
+### Customize Component Kit for optimal UI
 
-### Low gas  vs. frontend dev simplicity
+Custom kit of scaffold-eth components
+- more flexible (customizable)
+- destructured props for better readability
+
+### Low gas  vs. simple frontend dev experience
 
 Factory contract code could be crafted for cheaper transactions if proper event indexing were used. 
 
 We don't have to include all owners and requiredConfirmations in Safe Created events. However, it's easier to provide good frontend functionality if that data is available directly from the events.
 
-This project uses no indexing, so complex queries / numerous rpc requests are kept to a minimum. 
+### Rpc load
 
-It won't **scale well** for 
-  - many created MultiSig Safes
-  - many Transactions within one safe
+This project uses no indexing. RPC requests are kept to a minimum but it may still be an issue. 
+
+It won't **scale well** if
+  - many MultiSig Safes created 
+  - many transactions within any one safe
  the problems being speed and (probably) rpc server request caps. 
 
 So this is **not a production setup**.
 
 Improvements possible via Subgraph or Moralis for "backend" support.
 
-### Rpc load
-
 Even with this minimal setup the app can get quite intensive on RPC requests. 
-
-Blocknumber requests could be reduced (WiP)
 
 ### Use
 

@@ -14,16 +14,16 @@ const { utils } = require("ethers");
   - in etherMode it also displays the eth symbol
   - toggle price on click can be disabled via noClick prop
   - custom symbol can be used to represent currency (token ticker symbols etc.)
+
+  - MUST PROVIDE balance or value as prop, it should be available in parent component => one less call to rpc node
 */
 
 export default function CustomBalance({
   value,
+  balance,
   price,
   etherMode,
   decimals,
-  provider,
-  address,
-  balance,
   dollarMultiplier,
   customSymbol,
   customColor,
@@ -36,9 +36,8 @@ export default function CustomBalance({
   const dollarDecimals = decimals ?? 2;
   const ethDecimals = decimals ?? 4;
 
-  const balanceVal = useBalance(provider, address);
   let floatBalance = parseFloat("0.00");
-  let usingBalance = balanceVal;
+  let usingBalance;
 
   if (typeof balance !== "undefined") usingBalance = balance;
   if (typeof value !== "undefined") usingBalance = value;

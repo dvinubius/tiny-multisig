@@ -47,7 +47,7 @@ const MSTransactionOverview = ({ transaction }) => {
     <div
       style={{
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
         gap: "1rem",
         flexWrap: "wrap",

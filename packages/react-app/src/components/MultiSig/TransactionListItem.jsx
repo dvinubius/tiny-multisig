@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Divider } from "antd";
 
 import { AppContext, LayoutContext } from "../../App";
@@ -35,15 +35,21 @@ const TransactionListItem = function ({ transaction }) {
       // - too many open details (remove details from DOM)
       // - accidental closing of details (delay of 5 seconds)
       setTimeout(() => {
-        if (detailsHeight === 0) {
-          setShowDetails(false);
-        }
+        setDetailsVisibilityNonce(Math.random());
       }, 5000);
     }
   };
 
-  const isSelfOwner = owners.includes(userAddress);
+  const [detailsVisibilityNonce, setDetailsVisibilityNonce] = useState(-1);
+  useEffect(() => {
+    debugger;
+    if (detailsVisibilityNonce >= 0 && detailsHeight === 0) {
+      setShowDetails(false);
+    }
+  }, [detailsVisibilityNonce]);
 
+  const isSelfOwner = owners.includes(userAddress);
+  console.log("SHOWDETAILS: ", showDetails);
   return (
     <div>
       <div

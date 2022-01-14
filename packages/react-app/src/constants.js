@@ -1,5 +1,6 @@
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
-export const INFURA_ID = "7b0e75d38d424750b92791477924d133";
+export const INFURA_ID = "c76b085421cc4d459f53f8a3a9b94592"; // mine
+// export const INFURA_ID = "7b0e75d38d424750b92791477924d133"; // default
 
 export const MORALIS_RPC = "https://speedy-nodes-nyc.moralis.io/da96186f4f0cb2b927b8d973/eth/rinkeby";
 
@@ -20,6 +21,7 @@ export const NETWORKS = {
     chainId: 31337,
     blockExplorer: "",
     rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
+    rpcUrl2: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
   },
   mainnet: {
     name: "mainnet",
@@ -41,6 +43,7 @@ export const NETWORKS = {
     color: "#e0d068",
     chainId: 4,
     rpcUrl: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
+    rpcUrl2: MORALIS_RPC,
     faucet: "https://faucet.rinkeby.io/",
     blockExplorer: "https://rinkeby.etherscan.io/",
   },

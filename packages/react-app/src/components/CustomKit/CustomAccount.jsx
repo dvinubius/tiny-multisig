@@ -2,11 +2,10 @@ import { UserOutlined } from "@ant-design/icons";
 import { Button, Popover } from "antd";
 import React, { useContext } from "react";
 import { useThemeSwitcher } from "react-css-theme-switcher";
-import { LayoutContext } from "../../App";
+import { AppContext, LayoutContext } from "../../App";
 import { breakPointAccountDisplayMinimize } from "../../styles";
 import CustomAddress from "./CustomAddress";
 import CustomBalance from "./CustomBalance";
-import CustomNetworkDisplay from "./CustomNetworkDisplay";
 import CustomWallet from "./CustomWallet";
 
 /*
@@ -26,6 +25,7 @@ export default function CustomAccount({
   connectedNetworkDisplay,
 }) {
   const { windowWidth } = useContext(LayoutContext);
+  const { userEthBalance } = useContext(AppContext);
   const isSmallScreen = windowWidth < breakPointAccountDisplayMinimize;
 
   const modalButtons = [];
@@ -68,6 +68,7 @@ export default function CustomAccount({
 
   const bal = (
     <CustomBalance
+      balance={userEthBalance}
       address={address}
       size="1.125rem"
       provider={localProvider}
