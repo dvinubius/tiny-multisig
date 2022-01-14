@@ -28,9 +28,35 @@ const MSContractItem = ({ openContract, contract }) => {
             fontWeight: 400,
           }}
         >
-          <div style={{ fontSize: "1.25rem", fontWeight: 400 }}>{contract.name}</div>
-          <CustomAddress fontSize={20} value={contract.address} />
-          <Button style={{ fontSize: "1rem", width: mediumButtonMinWidth }} onClick={() => openContract(contract)}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "1rem",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              flex: "66%",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "1.125rem",
+                fontWeight: 400,
+
+                // color: softTextColor,
+              }}
+            >
+              {contract.name}
+            </div>
+            <CustomAddress fontSize={18} value={contract.address} />
+          </div>
+          <Button
+            style={{
+              fontSize: "1rem",
+              width: mediumButtonMinWidth,
+            }}
+            onClick={() => openContract(contract)}
+          >
             Open <LoginOutlined />
           </Button>
         </div>

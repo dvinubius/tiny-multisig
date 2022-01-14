@@ -28,7 +28,8 @@ import UserStatus from "../Shared/UserStatus";
 export const MsSafeContext = createContext({});
 
 const MultiSig = ({ contract }) => {
-  const { injectableAbis, localProvider, userSigner, localChainId, userAddress } = useContext(AppContext);
+  const { injectableAbis, localProvider, injectedProvider, userSigner, localChainId, userAddress } =
+    useContext(AppContext);
 
   const contractConfig = getContractConfigWithInjected(
     "MultiSigSafe",
@@ -52,7 +53,7 @@ const MultiSig = ({ contract }) => {
 
   const isSelfOwnerOfContract = contract && userAddress && contract.owners.includes(userAddress);
   const isSelfCreatorOfContract = contract && contract.creator === userAddress;
-  const uncertain = !(contract && userAddress);
+  const uncertain = injectedProvider ? !(contract && userAddress) : !contract;
   const userStatusDisplay = !uncertain && (
     <UserStatus isSelfCreator={isSelfCreatorOfContract} isSelfOwner={isSelfOwnerOfContract} idx={contract.idx} />
   );

@@ -34,7 +34,7 @@ export default function CustomAddress({
   const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === "eth";
   const etherscanLink = blockExplorerLink(addr, blockExplorer);
   let displayAddress = addr?.substr(0, 5) + "..." + addr?.substr(-4);
-  debugger;
+
   if (validEnsCheck) {
     displayAddress = ens;
   } else if (size === "short") {

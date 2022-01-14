@@ -6,7 +6,6 @@ import { APP_URL } from "../../constants";
 import { primaryColor, softBorder, softTextColor, swapGradient } from "../../styles";
 import OwnerMark from "./OwnerMark";
 
-const { Text } = Typography;
 const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
   const onCopy = () => {
     navigator.clipboard.writeText(`${APP_URL}/safe/${idx}`);
@@ -29,7 +28,25 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
     </Popover>
   );
 
-  const keyworkColor = "deeppink";
+  const keywordColor = "deeppink";
+  const ownerText = isSelfOwner && (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
+      <span>
+        You <span style={{ color: keywordColor }}>co-own</span> this safe.
+      </span>
+      <div style={{ marginLeft: "0.5rem" }}>
+        <OwnerMark />
+      </div>
+    </div>
+  );
+
+  const creatorText = isSelfCreator && (
+    <span>
+      You <span style={{ color: keywordColor }}>created</span> this safe.
+    </span>
+  );
+
+  const viewerText = !isSelfOwner && !isSelfCreator && <>You are not an owner of this safe.</>;
 
   const message = (
     <div
@@ -40,25 +57,13 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexWrap: "wrap",
         gap: "0.5rem",
       }}
     >
-      {isSelfOwner ? (
-        <>
-          <OwnerMark />
-          {isSelfCreator ? (
-            <>
-              You <span style={{ color: keyworkColor }}>created</span> this safe
-            </>
-          ) : (
-            <>
-              You <span style={{ color: keyworkColor }}>co-own</span> this safe
-            </>
-          )}
-        </>
-      ) : (
-        <>You are not an owner to this safe</>
-      )}
+      {creatorText}
+      {ownerText}
+      {viewerText}
     </div>
   );
 
@@ -66,7 +71,8 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
     <div
       style={{
         width: "100%",
-        height: 40,
+        minHeight: 40,
+
         display: "flex",
         alignItems: "center",
         // justifyContent: "flex-start",
@@ -74,7 +80,7 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
         justifyContent: "space-between",
         background: swapGradient,
         gap: "1rem",
-        padding: "0 1rem",
+        padding: "0.5rem 1rem",
         border: softBorder,
       }}
     >

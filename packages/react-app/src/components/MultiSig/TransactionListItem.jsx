@@ -42,7 +42,6 @@ const TransactionListItem = function ({ transaction }) {
 
   const [detailsVisibilityNonce, setDetailsVisibilityNonce] = useState(-1);
   useEffect(() => {
-    debugger;
     if (detailsVisibilityNonce >= 0 && detailsHeight === 0) {
       setShowDetails(false);
     }
