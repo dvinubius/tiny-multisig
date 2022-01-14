@@ -77,7 +77,7 @@ const App = props => {
 
   // load all your providers
   const localProvider = useStaticJsonRPC([
-    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl2,
+    process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : targetNetwork.rpcUrl,
   ]);
   const mainnetProvider = useStaticJsonRPC(providers);
 
@@ -165,7 +165,6 @@ const App = props => {
   // CREATED CONTRACTS
 
   // ** 📟 Listen for broadcast events
-  // const createMultiSigSafeEvents = useEventListener(readContracts, "MSFactory", "CreateMultiSigSafe", localProvider, 1);
   const createMultiSigSafeEvents = useEventListener(readContracts, "MSFactory", "CreateMultiSigSafe", localProvider, 1);
   console.log("📟 CreateMultiSigSafe events:", createMultiSigSafeEvents);
 

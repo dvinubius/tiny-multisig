@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { breakPointMsTxDetailsFit, cardGradient, softTextColor } from "../../styles";
+import { breakPointMsTxDetailsFit, cardGradient, mediumButtonMinWidth, softTextColor } from "../../styles";
 
-import { Card, Descriptions } from "antd";
+import { Button, Card, Descriptions } from "antd";
 import CustomAddress from "../CustomKit/CustomAddress";
 import { LayoutContext } from "../../App";
+import { LoginOutlined } from "@ant-design/icons";
 
 const MSContractItem = ({ openContract, contract }) => {
   const cellHeight = "2.5rem";
@@ -16,7 +17,6 @@ const MSContractItem = ({ openContract, contract }) => {
       size="small"
       style={{ background: cardGradient }}
       className="hoverableLight"
-      onClick={() => openContract(contract)}
       title={
         <div
           style={{
@@ -30,6 +30,9 @@ const MSContractItem = ({ openContract, contract }) => {
         >
           <div style={{ fontSize: "1.25rem", fontWeight: 400 }}>{contract.name}</div>
           <CustomAddress fontSize={20} value={contract.address} />
+          <Button style={{ fontSize: "1rem", width: mediumButtonMinWidth }} onClick={() => openContract(contract)}>
+            Open <LoginOutlined />
+          </Button>
         </div>
       }
     >

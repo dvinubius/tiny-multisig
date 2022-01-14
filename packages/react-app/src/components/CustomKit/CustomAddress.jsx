@@ -14,7 +14,8 @@ import "./CustomAddress.css";
 
 const { Text } = Typography;
 
-const blockExplorerLink = (address, blockExplorer) => blockExplorer || `https://etherscan.io/address/${address}`;
+const blockExplorerLink = (address, blockExplorer) =>
+  `${blockExplorer || "https://etherscan.io/"}${"address/"}${address}`;
 
 export default function CustomAddress({
   value,
@@ -33,7 +34,7 @@ export default function CustomAddress({
   const validEnsCheck = ensSplit && ensSplit[ensSplit.length - 1] === "eth";
   const etherscanLink = blockExplorerLink(addr, blockExplorer);
   let displayAddress = addr?.substr(0, 5) + "..." + addr?.substr(-4);
-
+  debugger;
   if (validEnsCheck) {
     displayAddress = ens;
   } else if (size === "short") {
@@ -50,17 +51,8 @@ export default function CustomAddress({
     );
   }
 
-  const catchEvent = e => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
   return (
-    <span
-      style={{ display: "inline-flex", alignItems: "center", width: "max-content" }}
-      onClick={catchEvent}
-      className="CustomAddress"
-    >
+    <span style={{ display: "inline-flex", alignItems: "center", width: "max-content" }} className={`CustomAddress`}>
       <span style={{ display: "inline-flex", alignItems: "center" }}>
         {!noBlockie && <Blockies seed={addr.toLowerCase()} size={8} scale={fontSize ? fontSize / 7 : 4} />}
       </span>

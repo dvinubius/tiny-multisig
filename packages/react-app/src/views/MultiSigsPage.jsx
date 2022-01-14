@@ -22,7 +22,7 @@ const MultiSigsPage = () => {
   useEffect(() => setTimeout(() => setInitExpired(true), 2500), []); // wait for userAddress to initialize
 
   const ownedContracts =
-    userAddress && createdContracts && createdContracts.filter(contract => contract.owners.includes(userAddress)); // only mine
+    userAddress && createdContracts && createdContracts.filter(contract => contract.owners.includes(userAddress) || contract.creator === userAddress); // only mine
   const [openedContract, setOpenedContract] = useState();
   const handleOpenContract = c => {
     setOpenedContract(c);
@@ -92,6 +92,7 @@ const MultiSigsPage = () => {
             top: 0,
             left: "50%",
             transform: "translateX(-50%)",
+            zIndex: -1,
           }}
         >
           {<CodeSandboxOutlined />} {!openedContract && "My Safes"}
