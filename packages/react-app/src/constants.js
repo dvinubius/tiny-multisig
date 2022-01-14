@@ -1,7 +1,5 @@
 // MY INFURA_ID, SWAP IN YOURS FROM https://infura.io/dashboard/ethereum
 export const INFURA_ID = "c76b085421cc4d459f53f8a3a9b94592"; // mine
-// export const INFURA_ID = "7b0e75d38d424750b92791477924d133"; // default
-export const MORALIS_RPC = "https://speedy-nodes-nyc.moralis.io/da96186f4f0cb2b927b8d973/eth/rinkeby";
 
 // MY ETHERSCAN_ID, SWAP IN YOURS FROM https://etherscan.io/myapikey
 export const ETHERSCAN_KEY = "DNXJA8RX2Q3VZ4URQIWP7Z68CJXQZSC6AW";
