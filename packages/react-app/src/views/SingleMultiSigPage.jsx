@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom";
 import { AppContext } from "../App";
 import MultiSig from "../components/MultiSig/MultiSig";
 import { mediumButtonMinWidth, softTextColor } from "../styles";
+import NaviMultiSigs from "./NaviMultiSigs";
 const { Title } = Typography;
 
 const SingleMultiSigPage = () => {
@@ -41,64 +42,60 @@ const SingleMultiSigPage = () => {
             </Link>
           </>
         )}
-        {!doesntExist && <Spin size="large" />}
+        {!doesntExist && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <Spin size="large" />
+            <div style={{ color: softTextColor, fontSize: "1.25rem" }}>Connecting to Safe Contract...</div>
+          </div>
+        )}
       </div>
     );
   }
 
-  return (
-    <div
+  const naviItems = (
+    <Link to="/">
+      <Button style={{ minWidth: mediumButtonMinWidth }} size="large">
+        <HomeOutlined />
+        My Safes
+      </Button>
+    </Link>
+  );
+
+  const pageTitle = <CodeSandboxOutlined />;
+
+  const viewTitle = (
+    <Title
+      level={2}
       style={{
-        height: "100%",
-        alignSelf: "stretch",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "2rem 0 0",
+        fontWeight: 400,
+        height: "2rem",
+        transform: "translateY(-3px)",
+        color: softTextColor,
+        margin: "0",
       }}
     >
-      {contract && (
-        <div style={{ alignSelf: "stretch", margin: "0 1rem", display: "flex", gap: "1rem", position: "relative" }}>
-          <Link to="/">
-            <Button style={{ minWidth: mediumButtonMinWidth }} size="large">
-              {/* <CodeSandboxOutlined /> */}
-              <HomeOutlined />
-              My Safes
-            </Button>
-          </Link>
-          <Title
-            level={2}
-            style={{ fontWeight: 400, position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)" }}
-          >
-            <CodeSandboxOutlined />
-          </Title>
-        </div>
-      )}
-      {/* NAVI */}
-      <div style={{ width: "100%", padding: "0 1rem" }}>
-        <Divider style={{ margin: "1rem 0 0" }}>
-          <Title
-            level={2}
-            style={{
-              fontWeight: 400,
-              height: "2rem",
-              transform: "translateY(-3px)",
-              color: softTextColor,
-              margin: "0",
-            }}
-          >
-            {contract.name}
-          </Title>
-        </Divider>
-      </div>
+      {contract.name}
+    </Title>
+  );
 
-      {/* CONTENT */}
-      {contract && injectableAbis && (
-        <div style={{ alignSelf: "stretch", flex: 1, overflow: "hidden" }}>
-          <MultiSig contract={contract} />
-        </div>
-      )}
+  const viewDivider = <Divider style={{ margin: "1rem 0 1rem" }}>{viewTitle ?? ""}</Divider>;
+
+  const viewContent = contract && injectableAbis && (
+    <div style={{ alignSelf: "stretch", flex: 1, overflow: "hidden" }}>
+      <MultiSig contract={contract} />
     </div>
+  );
+
+  return (
+    <NaviMultiSigs naviItems={naviItems} pageTitle={pageTitle} viewDivider={viewDivider} viewContent={viewContent} />
   );
 };
 export default SingleMultiSigPage;

@@ -6,7 +6,7 @@ import { useEventListener } from "eth-hooks/events/useEventListener";
 import { useExchangeEthPrice } from "eth-hooks/dapps/dex";
 
 import React, { useCallback, useEffect, useState, createContext, useMemo } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import { useStaticJsonRPC } from "./hooks";
 import { Web3ModalSetup } from "./helpers";
 import { loadNonDeployedContractAbi } from "./helpers/loadNonDeployedAbis";
@@ -347,13 +347,22 @@ const App = props => {
             <div className="AppScroller">
               <Routes>
                 <Route
-                  path="/"
+                  path="/mysafes/:idx"
                   element={
                     <div className="AppCenteredCol">
                       <MultiSigsPage />
                     </div>
                   }
                 />
+                <Route
+                  path="/mysafes"
+                  element={
+                    <div className="AppCenteredCol">
+                      <MultiSigsPage />
+                    </div>
+                  }
+                />
+                <Route path="/" element={<Navigate replace to="/mysafes" />} />
                 <Route path="/safe/:idx" element={<SingleMultiSigPage />} />
                 <Route
                   path="/contracts"

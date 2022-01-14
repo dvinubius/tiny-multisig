@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { CodeSandboxOutlined, LeftOutlined } from "@ant-design/icons";
+import React, { useCallback, useContext, useEffect } from "react";
+import { CodeSandboxOutlined, HomeOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Divider, Spin, Typography } from "antd";
 import { useState } from "react";
 import CreateMultiSig from "../components/Factory/CreateMultiSig";
@@ -8,6 +8,8 @@ import StackGrid from "react-stack-grid";
 import MSContractItem from "../components/Factory/MSContractItem";
 import { AppContext, LayoutContext } from "../App";
 import MultiSig from "../components/MultiSig/MultiSig";
+import NaviMultiSigs from "./NaviMultiSigs";
+import { useNavigate, useParams } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -15,24 +17,43 @@ const MultiSigsPage = () => {
   const { injectableAbis, createdContracts, readContracts, userAddress } = useContext(AppContext);
   const { widthAboveMsTxDetailsFit } = useContext(LayoutContext);
 
+  const navigate = useNavigate();
+  const { idx } = useParams();
+  const chosenContractMode = typeof idx !== "undefined";
+
+  const [displayBack, setDisplayBack] = useState(false);
+
   const [eventQueryExpired, setEventQueryExpired] = useState(false);
-  useEffect(() => setTimeout(() => setEventQueryExpired(true), 5000), []); // if after this time no results, assume this user nas no owned safes
+  useEffect(() => setTimeout(() => setEventQueryExpired(true), 6500), []); // if after this time no results, assume this user nas no owned safes
 
-  const [initExpired, setInitExpired] = useState(false);
-  useEffect(() => setTimeout(() => setInitExpired(true), 2500), []); // wait for userAddress to initialize
+  const [userAddressInitExpired, setUserAddressInitExpired] = useState(false);
+  useEffect(() => setTimeout(() => setUserAddressInitExpired(true), 2500), []); // wait for userAddress to initialize
 
-  const ownedContracts =
-    userAddress && createdContracts && createdContracts.filter(contract => contract.owners.includes(userAddress) || contract.creator === userAddress); // only mine
-  const [openedContract, setOpenedContract] = useState();
-  const handleOpenContract = c => {
-    setOpenedContract(c);
+  const isMine = c => c.owners.includes(userAddress) || c.creator === userAddress;
+
+  const canGetData = chosenContractMode
+    ? idx && createdContracts && userAddress && injectableAbis
+    : createdContracts && injectableAbis && userAddress && readContracts;
+
+  // just the chosen contract
+  const identifiedParamContract =
+    chosenContractMode && canGetData && createdContracts.find(c => c.idx.toString() === idx);
+
+  // all owned or created ones
+  const myContracts = !chosenContractMode && canGetData && createdContracts.filter(isMine);
+
+  const handleOpenContract = useCallback(c => {
+    setDisplayBack(true);
+    navigate(`/mysafes/${c.idx}`);
+  });
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
-  const handleBack = () => setOpenedContract(null);
-
-  const readyAll = ownedContracts && readContracts;
-
-  if (!readyAll)
+  if (!canGetData) {
+    // DISPLAY LOADING STATE / EMPTY STATE WITHOUT NAVI SHELL
+    const showNoUserDisplay = userAddressInitExpired && !userAddress;
     return (
       <div
         style={{
@@ -42,7 +63,7 @@ const MultiSigsPage = () => {
           alignItems: "flex-start",
         }}
       >
-        {initExpired && !userAddress && (
+        {showNoUserDisplay && (
           <div
             style={{
               color: softTextColor,
@@ -52,103 +73,136 @@ const MultiSigsPage = () => {
             Connect a wallet to view this page
           </div>
         )}
-        {(userAddress || !initExpired) && <Spin size="large" />}
+        {!showNoUserDisplay && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <Spin size="large" />
+            <div style={{ color: softTextColor, fontSize: "1.25rem" }}>Connecting...</div>
+          </div>
+        )}
       </div>
     );
+  }
 
-  return (
-    <div
-      style={{
-        height: "100%",
-        alignSelf: "stretch",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "2rem 0 0",
-      }}
-    >
-      <div
-        style={{
-          alignSelf: "stretch",
-          margin: "0 1rem",
-          display: "flex",
-          gap: "1rem",
-          position: "relative",
-        }}
-      >
-        <div style={{ width: "9rem", textAlign: "left" }}>
-          {!openedContract && <CreateMultiSig />}
-          {openedContract && (
-            <Button onClick={handleBack} style={{ minWidth: mediumButtonMinWidth }} size="large">
-              <LeftOutlined /> Back
-            </Button>
-          )}
-        </div>
+  // BUILD SHELL
+
+  const naviItems = chosenContractMode ? (
+    <div style={{ width: "9rem", textAlign: "left" }}>
+      {displayBack && (
+        <Button onClick={handleBack} style={{ minWidth: mediumButtonMinWidth }} size="large">
+          <LeftOutlined /> Back
+        </Button>
+      )}
+      {!displayBack && (
+        <Button style={{ minWidth: mediumButtonMinWidth }} size="large" onClick={() => navigate("/")}>
+          <HomeOutlined />
+          My Safes
+        </Button>
+      )}
+    </div>
+  ) : (
+    <div style={{ width: "9rem", textAlign: "left" }}>
+      <CreateMultiSig />
+    </div>
+  );
+
+  const pageTitle = chosenContractMode ? (
+    <CodeSandboxOutlined />
+  ) : (
+    <>
+      <CodeSandboxOutlined /> My Safes
+    </>
+  );
+
+  const viewDivider = (
+    <Divider style={{ margin: identifiedParamContract ? "1rem 0 1rem" : "2rem 0 0" }}>
+      {identifiedParamContract && (
         <Title
           level={2}
           style={{
             fontWeight: 400,
-            position: "absolute",
-            top: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: -1,
+            height: "2rem",
+            transform: "translateY(-3px)",
+            color: softTextColor,
+            margin: "0",
           }}
         >
-          {<CodeSandboxOutlined />} {!openedContract && "My Safes"}
+          {identifiedParamContract.name}
         </Title>
-      </div>
-      {/* NAVI */}
-      <div style={{ width: "100%", padding: "0 1rem" }}>
-        <Divider style={{ margin: openedContract ? "1rem 0 1rem" : "2rem 0 0" }} orientation={"center"}>
-          {openedContract && (
-            <Title
-              level={2}
-              style={{
-                fontWeight: 400,
-                height: "2rem",
-                transform: "translateY(-3px)",
-                color: softTextColor,
-                margin: "0",
-              }}
-            >
-              {openedContract.name}
-            </Title>
-          )}
-        </Divider>
-      </div>
+      )}
+    </Divider>
+  );
 
-      {/* CONTENT */}
-      {!openedContract && ownedContracts && ownedContracts.length === 0 && (
-        <div style={{ color: softTextColor, marginTop: "20vh", fontSize: "1.25rem" }}>
-          {!eventQueryExpired && <Spin size="large"></Spin>}
-          {eventQueryExpired && "Looks like you don't own any safes yet"}
+  const hasData = chosenContractMode ? identifiedParamContract : myContracts.length;
+
+  let viewContent;
+  if (!hasData) {
+    // EMPTY STATE
+    viewContent = (
+      <div style={{ color: softTextColor, marginTop: "20vh", fontSize: "1.25rem" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
+          {!eventQueryExpired && (
+            <>
+              <Spin size="large" />
+              <div style={{ color: softTextColor, fontSize: "1.25rem" }}>
+                {chosenContractMode ? "Connecting to your safe..." : "Retrieving your safes..."}
+              </div>
+            </>
+          )}
+
+          {eventQueryExpired && (
+            <div style={{ color: softTextColor, fontSize: "1.25rem" }}>
+              {chosenContractMode
+                ? "Could not find this safe among your own"
+                : "Looks like you don't own any safes yet"}
+            </div>
+          )}
         </div>
-      )}
-      {!openedContract && ownedContracts && ownedContracts.length > 0 && injectableAbis && (
-        <div style={{ alignSelf: "stretch", flex: 1, overflowY: "auto", paddingTop: "2rem" }}>
-          <div
-            style={{
-              maxWidth: widthAboveMsTxDetailsFit ? `${mainColWidthRem}rem` : "28rem",
-              margin: "0 auto 8rem",
-            }}
-          >
-            <StackGrid columnWidth="100%" gutterHeight={16}>
-              {ownedContracts.map(c => (
-                <div key={c.address}>
-                  <MSContractItem openContract={handleOpenContract} contract={c} abi={injectableAbis.MultiSigSafe} />
-                </div>
-              ))}
-            </StackGrid>
-          </div>
+      </div>
+    );
+  } else {
+    // PROPER CONTENT
+    viewContent = chosenContractMode ? (
+      <div style={{ alignSelf: "stretch", flex: 1, overflow: "hidden" }}>
+        <MultiSig contract={identifiedParamContract} />
+      </div>
+    ) : (
+      <div style={{ alignSelf: "stretch", flex: 1, overflowY: "auto", paddingTop: "2rem" }}>
+        <div
+          style={{
+            maxWidth: widthAboveMsTxDetailsFit ? `${mainColWidthRem}rem` : "28rem",
+            margin: "0 auto 8rem",
+          }}
+        >
+          <StackGrid columnWidth="100%" gutterHeight={16}>
+            {myContracts.map(c => (
+              <div key={c.address}>
+                <MSContractItem openContract={handleOpenContract} contract={c} abi={injectableAbis.MultiSigSafe} />
+              </div>
+            ))}
+          </StackGrid>
         </div>
-      )}
-      {openedContract && injectableAbis && (
-        <div style={{ alignSelf: "stretch", flex: 1, overflow: "hidden" }}>
-          <MultiSig contract={openedContract} />
-        </div>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  return (
+    <NaviMultiSigs naviItems={naviItems} pageTitle={pageTitle} viewDivider={viewDivider} viewContent={viewContent} />
   );
 };
 
