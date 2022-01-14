@@ -12,7 +12,6 @@ import OwnerMark from "../Shared/OwnerMark";
 const Owners = ({ confirmations }) => {
   const { userAddress } = useContext(AppContext);
   let { owners } = useContext(MsSafeContext);
-  // owners = [...owners, ...owners, ...owners, ...owners, ...owners];
 
   const singleColumn = (
     <>
@@ -22,11 +21,6 @@ const Owners = ({ confirmations }) => {
             <List size="small">
               {owners.map(owner => (
                 <List.Item style={{ padding: "0.25rem 2rem", display: "flex", justifyContent: "center" }}>
-                  {/* <CustomAddress value={owner} fontSize={14} /> */}
-                  {/* <div style={{ display: "flex", gap: "1rem" }}>
-                    <CustomAddress value={owner} fontSize={14} />
-                    {owner === userAddress ? <OwnerMark /> : ""}
-                  </div> */}
                   <div style={{ position: "relative" }}>
                     <CustomAddress value={owner} fontSize={14} />
                     <div style={{ position: "absolute", right: "-2rem", top: 0 }}>

@@ -1,54 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Divider } from "antd";
+import { Button, Divider } from "antd";
 
 import { AppContext, LayoutContext } from "../../App";
 import MSTransactionOverview from "./MSTransactionOverview";
 import { MsSafeContext } from "./MultiSig";
-import ManageButton from "./ManageButton";
 import MSTransactionDetails from "./MSTransactionDetails";
 import {
-  breakPointMsTxDetailsFit,
   detailsHeightLarge,
   detailsHeightNarrow,
   mediumBorder,
-  mediumBorder2,
+  mediumButtonMinWidth,
   pinkAccentBorder,
-  swapGradient,
   swapGradientSimple,
 } from "../../styles";
+import { ArrowsAltOutlined, LoginOutlined } from "@ant-design/icons";
 
-const TransactionListItem = function ({ transaction }) {
+const TransactionListItem = function ({ transaction, onExpand, expanded }) {
   const { userAddress } = useContext(AppContext);
   const { owners, confirmationsRequired: totalConfsNeeded } = useContext(MsSafeContext);
   const { widthAboveMsTxDetailsFit } = useContext(LayoutContext);
 
-  const [showDetails, setShowDetails] = useState(false);
-  const [detailsHeight, setDetailsHeight] = useState(0);
-  const toggleDetailsVisibility = () => {
-    const maxHeight = widthAboveMsTxDetailsFit ? detailsHeightNarrow : detailsHeightLarge;
-    if (detailsHeight === 0) {
-      setShowDetails(true);
-      setTimeout(() => setDetailsHeight(maxHeight));
-    } else {
-      setDetailsHeight(0);
-      // prevent request spamming due to
-      // - too many open details (remove details from DOM)
-      // - accidental closing of details (delay of 5 seconds)
-      setTimeout(() => {
-        setDetailsVisibilityNonce(Math.random());
-      }, 5000);
-    }
-  };
-
-  const [detailsVisibilityNonce, setDetailsVisibilityNonce] = useState(-1);
-  useEffect(() => {
-    if (detailsVisibilityNonce >= 0 && detailsHeight === 0) {
-      setShowDetails(false);
-    }
-  }, [detailsVisibilityNonce]);
+  const detailsHeight = widthAboveMsTxDetailsFit ? detailsHeightNarrow : detailsHeightLarge;
 
   const isSelfOwner = owners.includes(userAddress);
-  console.log("SHOWDETAILS: ", showDetails);
+
   return (
     <div>
       <div
@@ -62,19 +37,24 @@ const TransactionListItem = function ({ transaction }) {
           borderRadius: ".25rem",
           padding: "1rem",
 
-          border: detailsHeight !== 0 ? pinkAccentBorder : mediumBorder,
+          // border: pinkAccentBorder,
+          border: mediumBorder,
         }}
         className="MultiSigTxItem"
       >
         <MSTransactionOverview transaction={transaction} totalConfsNeeded={totalConfsNeeded} />
         {!transaction.executed && (
           <>
-            <ManageButton
-              text={isSelfOwner ? "Manage" : "Details"}
-              onClick={toggleDetailsVisibility}
-              collapsed={detailsHeight === 0}
-              wrapperStyle={{ alignSelf: "flex-end", marginTop: "1rem" }}
-            />
+            {!expanded && (
+              <Button
+                size="large"
+                onClick={() => onExpand()}
+                style={{ width: mediumButtonMinWidth, alignSelf: "flex-end", marginTop: "1rem" }}
+              >
+                {/* {isSelfOwner ? "Manage" : "Details"} <ArrowsAltOutlined /> */}
+                {isSelfOwner ? "Manage" : "Details"} <LoginOutlined />
+              </Button>
+            )}
 
             <div
               style={{
@@ -83,7 +63,7 @@ const TransactionListItem = function ({ transaction }) {
                 transition: "all 0.3s ease-out",
               }}
             >
-              {showDetails && (
+              {expanded && (
                 <>
                   <Divider style={{ margin: "1rem 0" }} />
                   <MSTransactionDetails transaction={transaction} isSelfOwner={isSelfOwner} />

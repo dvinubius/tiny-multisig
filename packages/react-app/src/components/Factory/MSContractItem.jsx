@@ -4,7 +4,7 @@ import { breakPointMsTxDetailsFit, cardGradient, mediumButtonMinWidth, softTextC
 import { Button, Card, Descriptions } from "antd";
 import CustomAddress from "../CustomKit/CustomAddress";
 import { LayoutContext } from "../../App";
-import { LoginOutlined } from "@ant-design/icons";
+import { ArrowsAltOutlined, LoginOutlined } from "@ant-design/icons";
 
 const MSContractItem = ({ openContract, contract }) => {
   const cellHeight = "2.5rem";
@@ -51,13 +51,16 @@ const MSContractItem = ({ openContract, contract }) => {
             <CustomAddress fontSize={18} value={contract.address} />
           </div>
           <Button
+            size="large"
             style={{
               fontSize: "1rem",
+
               width: mediumButtonMinWidth,
             }}
             onClick={() => openContract(contract)}
           >
-            Open <LoginOutlined />
+            Open <ArrowsAltOutlined />
+            {/* Open <LoginOutlined /> */}
           </Button>
         </div>
       }
