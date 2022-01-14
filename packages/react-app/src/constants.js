@@ -18,7 +18,6 @@ export const NETWORKS = {
     chainId: 31337,
     blockExplorer: "",
     rpcUrl: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
-    rpcUrl2: "http://" + (global.window ? window.location.hostname : "localhost") + ":8545",
   },
   mainnet: {
     name: "mainnet",
@@ -40,7 +39,6 @@ export const NETWORKS = {
     color: "#e0d068",
     chainId: 4,
     rpcUrl: `https://rinkeby.infura.io/v3/${INFURA_ID}`,
-    rpcUrl2: MORALIS_RPC,
     faucet: "https://faucet.rinkeby.io/",
     blockExplorer: "https://rinkeby.etherscan.io/",
   },
