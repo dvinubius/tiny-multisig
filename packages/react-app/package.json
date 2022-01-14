@@ -1,7 +1,7 @@
 {
   "name": "@scaffold-eth/react-app",
   "version": "1.0.0",
-  "homepage": ".",
+  "homepage": "https://tiny-multisig.surge.sh",
   "browserslist": {
     "production": [
       ">0.2%",
