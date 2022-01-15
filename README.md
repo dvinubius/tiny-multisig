@@ -16,8 +16,9 @@ Each safe has
 
 I can see an overview of safes where I am the creator or a co-owner
 
-A safe can execute transactions with given
+I can copy shareable links for any of my safes.
 
+A safe can execute transactions with given
 - ether amount
 - execution calldata
 
