@@ -71,7 +71,10 @@ So this is **not a production setup**.
 
 Improvements possible via Subgraph or Moralis for "backend" support.
 
-Even with this minimal setup the app can get quite intensive on RPC requests. 
+Even with this minimal setup the app can get quite intensive on RPC requests.
+
+These issues can be mitigated out-of-the box by using the [eth-hooks v4](https://github.com/scaffold-eth/eth-hooks), which can be used with the [scaffold-eth typescript](https://github.com/scaffold-eth/scaffold-eth-typescript).
+Make sure you take v4. It allows for optimized data retrieval (less rpc calls), both by caching values and by explicit setup of polling intervals etc.
 
 ### Use
 
