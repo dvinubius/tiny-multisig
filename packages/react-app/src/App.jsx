@@ -307,8 +307,6 @@ const App = props => {
     <LayoutContext.Provider value={layoutContext}>
       <AppContext.Provider value={appContext}>
         <div className="App">
-          {/* ✏️ Edit the header and change the title to your project name */}
-
           <BrowserRouter>
             <div
               style={{
