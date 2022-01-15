@@ -89,7 +89,9 @@ export default function CustomAccount({
     />
   );
 
-  const currentNetwork = <div style={{ marginLeft: "0.5rem", marginRight: "-0.5rem" }}>{connectedNetworkDisplay}</div>;
+  const currentNetwork = connectedNetworkDisplay && (
+    <div style={{ marginRight: "-0.5rem" }}>{connectedNetworkDisplay}</div>
+  );
 
   const fullDisplay = (
     <div style={{ display: "inline-flex", alignItems: "center" }}>
@@ -121,8 +123,10 @@ export default function CustomAccount({
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       {display}
-      {currentNetwork}
-      {modalButtons}
+      <div style={{ display: "flex", alignItems: "center", marginLeft: "0.5rem" }}>
+        {currentNetwork}
+        {modalButtons}
+      </div>
     </div>
   );
 }
