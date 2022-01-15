@@ -366,18 +366,7 @@ const App = props => {
                   path="/contracts"
                   element={
                     <div className="AppCenteredCol">
-                      <DebugUI
-                        factoryName="MSFactory"
-                        createdContractName="MultiSigSafe"
-                        factoryAddress={factoryAddress}
-                        createdContracts={createdContracts}
-                        injectableAbis={injectableAbis}
-                        localChainId={localChainId}
-                        localProvider={localProvider}
-                        blockExplorer={blockExplorer}
-                        userSigner={userSigner}
-                        contractConfig={contractConfig}
-                      />
+                      <DebugUI factoryName="MSFactory" createdContractName="MultiSigSafe" />
                     </div>
                   }
                 />
