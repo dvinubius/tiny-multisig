@@ -15,7 +15,7 @@ import { MsVaultContext } from "./MultiSig";
 
 const CreateMsTx = () => {
   const { writeContracts } = useContext(MsVaultContext);
-  const { userSigner, gasPrice, price } = useContext(AppContext);
+  const { userSigner, gasPrice, price, mainnetProvider } = useContext(AppContext);
   // The transactor wraps transactions and provides notificiations
   const tx = Transactor(userSigner, gasPrice);
 
@@ -147,6 +147,7 @@ const CreateMsTx = () => {
             <CustomAddressInput
               placeholder="Enter recipient"
               value={form.getFieldValue("to")}
+              ensProvider={mainnetProvider}
               wrapperStyle={{ width: `${inputWidthRem}rem` }}
             />
           </Form.Item>
