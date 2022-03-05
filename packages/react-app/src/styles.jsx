@@ -44,8 +44,8 @@ export const pinkAccentBorder = "1px solid hsla(328, 60%, 24%, 0.22)";
 // layout
 export const lateralPadRem = 1;
 export const mainColWidthRem = 50;
-export const msSafeColWidthRem = 16;
-export const msSafeColGapRem = 2;
+export const msVaultColWidthRem = 16;
+export const msVaultColGapRem = 2;
 export const mediumButtonMinWidth = "7rem";
 export const breakPointMsTxDetailsFit = 819;
 export const breakPointMsFit = 896;

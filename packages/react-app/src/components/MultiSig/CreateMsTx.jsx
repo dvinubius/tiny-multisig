@@ -11,10 +11,10 @@ import CreateModalSentOverlay from "../Shared/CreateModalSentOverlay";
 import "./CreateMsTx.css";
 import BytesInput from "../CustomKit/BytesInput";
 const { ethers } = require("ethers");
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 
 const CreateMsTx = () => {
-  const { writeContracts } = useContext(MsSafeContext);
+  const { writeContracts } = useContext(MsVaultContext);
   const { userSigner, gasPrice, price } = useContext(AppContext);
   // The transactor wraps transactions and provides notificiations
   const tx = Transactor(userSigner, gasPrice);
@@ -42,7 +42,7 @@ const CreateMsTx = () => {
       const to = form.getFieldValue("to");
       const value = ethers.utils.parseEther(form.getFieldValue("value"));
       const data = form.getFieldValue("data") ?? "0x";
-      const transaction = writeContracts.MultiSigSafe.submitTransaction(to, value, data);
+      const transaction = writeContracts.MultiSigVault.submitTransaction(to, value, data);
       setTxError(false);
       tx(transaction, update => {
         if (update && (update.error || update.reason)) {

@@ -24,7 +24,7 @@ const MultiSigsPage = () => {
   const [displayBack, setDisplayBack] = useState(false);
 
   const [eventQueryExpired, setEventQueryExpired] = useState(false);
-  useEffect(() => setTimeout(() => setEventQueryExpired(true), 6500), []); // if after this time no results, assume this user nas no owned safes
+  useEffect(() => setTimeout(() => setEventQueryExpired(true), 6500), []); // if after this time no results, assume this user nas no owned vaults
 
   const [userAddressInitExpired, setUserAddressInitExpired] = useState(false);
   useEffect(() => setTimeout(() => setUserAddressInitExpired(true), 2500), []); // wait for userAddress to initialize
@@ -44,7 +44,7 @@ const MultiSigsPage = () => {
 
   const handleOpenContract = useCallback(c => {
     setDisplayBack(true);
-    navigate(`/mysafes/${c.idx}`);
+    navigate(`/myvaults/${c.idx}`);
   });
 
   const handleBack = () => {
@@ -103,7 +103,7 @@ const MultiSigsPage = () => {
       {!displayBack && (
         <Button style={{ minWidth: mediumButtonMinWidth }} size="large" onClick={() => navigate("/")}>
           <HomeOutlined />
-          My Safes
+          My Vaults
         </Button>
       )}
     </div>
@@ -117,7 +117,7 @@ const MultiSigsPage = () => {
     <CodeSandboxOutlined />
   ) : (
     <>
-      <CodeSandboxOutlined /> My Safes
+      <CodeSandboxOutlined /> My Vaults
     </>
   );
 
@@ -160,7 +160,7 @@ const MultiSigsPage = () => {
             <>
               <Spin size="large" />
               <div style={{ color: softTextColor, fontSize: "1.25rem" }}>
-                {chosenContractMode ? "Connecting to your safe..." : "Retrieving your safes..."}
+                {chosenContractMode ? "Connecting to your vault..." : "Retrieving your vaults..."}
               </div>
             </>
           )}
@@ -168,8 +168,8 @@ const MultiSigsPage = () => {
           {eventQueryExpired && (
             <div style={{ color: softTextColor, fontSize: "1.25rem" }}>
               {chosenContractMode
-                ? "Could not find this safe among your own"
-                : "Looks like you don't own any safes yet"}
+                ? "Could not find this vault among your own"
+                : "Looks like you don't own any vaults yet"}
             </div>
           )}
         </div>
@@ -192,7 +192,7 @@ const MultiSigsPage = () => {
           <StackGrid columnWidth="100%" gutterHeight={16}>
             {myContracts.map(c => (
               <div key={c.address}>
-                <MSContractItem openContract={handleOpenContract} contract={c} abi={injectableAbis.MultiSigSafe} />
+                <MSContractItem openContract={handleOpenContract} contract={c} abi={injectableAbis.MultiSigVault} />
               </div>
             ))}
           </StackGrid>

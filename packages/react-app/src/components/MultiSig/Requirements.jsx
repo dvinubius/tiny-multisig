@@ -2,10 +2,10 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import React, { useContext } from "react";
 import { softTextColor } from "../../styles";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 
 const Requirements = () => {
-  const { owners, confirmationsRequired: confirmations } = useContext(MsSafeContext);
+  const { owners, confirmationsRequired: confirmations } = useContext(MsVaultContext);
   const requirementHelp = owners && confirmations && (
     <div
       style={{

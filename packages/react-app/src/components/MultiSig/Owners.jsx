@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 
 import CustomAddress from "../CustomKit/CustomAddress";
 import "./MultiSig.css";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { primaryColor } from "../../styles";
 import { AppContext } from "../../App";
@@ -11,7 +11,7 @@ import OwnerMark from "../Shared/OwnerMark";
 
 const Owners = ({ confirmations }) => {
   const { userAddress } = useContext(AppContext);
-  let { owners } = useContext(MsSafeContext);
+  let { owners } = useContext(MsVaultContext);
 
   const singleColumn = (
     <>

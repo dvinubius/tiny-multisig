@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../../App";
 import { RollbackOutlined, SendOutlined, SmileOutlined, WarningOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 import { dialogOverlayGradient, errorColor, softTextColor, softBorder, cardGradientGrey } from "../../styles";
 
 const MSTransactionActions = ({ transaction, canConfirm, canExecute, canRevoke, writeContracts }) => {
   const { tx } = useContext(AppContext);
-  const { balance } = useContext(MsSafeContext);
+  const { balance } = useContext(MsVaultContext);
 
   const [pendingActionConfirm, setPendingActionConfirm] = useState();
   const [pendingActionRevoke, setPendingActionRevoke] = useState();
@@ -15,7 +15,7 @@ const MSTransactionActions = ({ transaction, canConfirm, canExecute, canRevoke, 
 
   const confirmTx = () => {
     setPendingActionConfirm(true);
-    const confTx = writeContracts.MultiSigSafe.confirmTransaction(transaction.idx);
+    const confTx = writeContracts.MultiSigVault.confirmTransaction(transaction.idx);
     tx(confTx, update => {
       if (update && (update.error || update.reason)) {
         setPendingActionConfirm(false);
@@ -35,7 +35,7 @@ const MSTransactionActions = ({ transaction, canConfirm, canExecute, canRevoke, 
 
   const executeTx = () => {
     setPendingActionExecute(true);
-    const execTx = writeContracts.MultiSigSafe.executeTransaction(transaction.idx);
+    const execTx = writeContracts.MultiSigVault.executeTransaction(transaction.idx);
     tx(execTx, update => {
       if (update && (update.error || update.reason)) {
         setPendingActionExecute(false);
@@ -55,7 +55,7 @@ const MSTransactionActions = ({ transaction, canConfirm, canExecute, canRevoke, 
 
   const revokeTx = () => {
     setPendingActionRevoke(true);
-    const revokeTx = writeContracts.MultiSigSafe.revokeConfirmation(transaction.idx);
+    const revokeTx = writeContracts.MultiSigVault.revokeConfirmation(transaction.idx);
     tx(revokeTx, update => {
       if (update && (update.error || update.reason)) {
         setPendingActionRevoke(false);

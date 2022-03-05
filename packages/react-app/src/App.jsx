@@ -165,14 +165,20 @@ const App = props => {
   // CREATED CONTRACTS
 
   // ** 📟 Listen for broadcast events
-  const createMultiSigSafeEvents = useEventListener(readContracts, "MSFactory", "CreateMultiSigSafe", localProvider, 1);
-  console.log("📟 CreateMultiSigSafe events:", createMultiSigSafeEvents);
+  const createMultiSigVaultEvents = useEventListener(
+    readContracts,
+    "MSFactory",
+    "CreateMultiSigVault",
+    localProvider,
+    1,
+  );
+  console.log("📟 CreateMultiSigVault events:", createMultiSigVaultEvents);
 
   const [createdContracts, setCreatedContracts] = useState();
   useEffect(() => {
-    if (!createdContracts || createdContracts.length !== createMultiSigSafeEvents.length) {
+    if (!createdContracts || createdContracts.length !== createMultiSigVaultEvents.length) {
       setCreatedContracts(
-        createMultiSigSafeEvents
+        createMultiSigVaultEvents
           .map(event => ({
             idx: event.args.contractId.toNumber(),
             address: event.args.contractAddress,
@@ -186,7 +192,7 @@ const App = props => {
           .reverse(), // most recent first
       );
     }
-  }, [createMultiSigSafeEvents, address]);
+  }, [createMultiSigVaultEvents, address]);
 
   const [numCreated, setNumCreated] = useState();
   useEffect(() => {
@@ -198,8 +204,8 @@ const App = props => {
   const [injectableAbis, setInjectableAbis] = useState();
   useEffect(() => {
     const load = async () => {
-      const MultiSigSafe = await loadNonDeployedContractAbi("MultiSigSafe");
-      setInjectableAbis({ MultiSigSafe });
+      const MultiSigVault = await loadNonDeployedContractAbi("MultiSigVault");
+      setInjectableAbis({ MultiSigVault });
     };
     load();
   }, [setInjectableAbis]);
@@ -345,7 +351,7 @@ const App = props => {
             <div className="AppScroller">
               <Routes>
                 <Route
-                  path="/mysafes/:idx"
+                  path="/myvaults/:idx"
                   element={
                     <div className="AppCenteredCol">
                       <MultiSigsPage />
@@ -353,20 +359,20 @@ const App = props => {
                   }
                 />
                 <Route
-                  path="/mysafes"
+                  path="/myvaults"
                   element={
                     <div className="AppCenteredCol">
                       <MultiSigsPage />
                     </div>
                   }
                 />
-                <Route path="/" element={<Navigate replace to="/mysafes" />} />
-                <Route path="/safe/:idx" element={<SingleMultiSigPage />} />
+                <Route path="/" element={<Navigate replace to="/myvaults" />} />
+                <Route path="/vault/:idx" element={<SingleMultiSigPage />} />
                 <Route
                   path="/contracts"
                   element={
                     <div className="AppCenteredCol">
-                      <DebugUI factoryName="MSFactory" createdContractName="MultiSigSafe" />
+                      <DebugUI factoryName="MSFactory" createdContractName="MultiSigVault" />
                     </div>
                   }
                 />

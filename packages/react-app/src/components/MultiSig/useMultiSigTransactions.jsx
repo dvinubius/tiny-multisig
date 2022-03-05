@@ -37,7 +37,7 @@ export const useMultiSigTransactions = (provider, readContracts) => {
   const [updateNonce, setUpdateNonce] = useState(0);
   useEffect(() => combineSubmittedAndExecuted(updateNonce), [updateNonce]);
 
-  const submitTxEvents = useEventListener(readContracts, "MultiSigSafe", "SubmitTransaction", provider, 1);
+  const submitTxEvents = useEventListener(readContracts, "MultiSigVault", "SubmitTransaction", provider, 1);
   useEffect(() => {
     if (!transactions || submitTxEvents.length !== transactions.pending.length + transactions.executed.length) {
       const submittedTxs = submitTxEvents
@@ -50,7 +50,7 @@ export const useMultiSigTransactions = (provider, readContracts) => {
           dateSubmitted: new Date(event.args.timestamp.toNumber() * 1000),
         }))
         .reverse();
-      const txsDetailsPromises = submittedTxs.map(tx => readContracts.MultiSigSafe.getTransaction(tx.idx));
+      const txsDetailsPromises = submittedTxs.map(tx => readContracts.MultiSigVault.getTransaction(tx.idx));
       Promise.all(txsDetailsPromises).then(txsDetails => {
         submittedTxs.forEach((tx, idx) => {
           tx.executed = txsDetails[idx].executed;
@@ -62,7 +62,7 @@ export const useMultiSigTransactions = (provider, readContracts) => {
     }
   }, [submitTxEvents]);
 
-  const executeTxEvents = useEventListener(readContracts, "MultiSigSafe", "ExecuteTransaction", provider, 1);
+  const executeTxEvents = useEventListener(readContracts, "MultiSigVault", "ExecuteTransaction", provider, 1);
   useEffect(() => {
     const executedTxs = executeTxEvents.map(event => ({
       owner: event.args.owner,

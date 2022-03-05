@@ -8,26 +8,26 @@ In many ways just a Proof of Concept, not suitable for production.
 
 ## Specs
 
-As a user I can create multisig safes.
+As a user I can create multisig vaults.
 
-Each safe has
+Each vault has
 - a set of owners
 - a requirement for minimum confirmations
 
-I can see an overview of safes where I am the creator or a co-owner
+I can see an overview of vaults where I am the creator or a co-owner
 
-I can copy shareable links for any of my safes.
+I can copy shareable links for any of my vaults.
 
-A safe can execute transactions with given
+A vault can execute transactions with given
 - ether amount
 - execution calldata
 
-I can enter a detailed view of a safe, and there
+I can enter a detailed view of a vault, and there
 - create multisig transactions
 - approve (confirm) existing transactions
 - execute sufficiently approved transactions
 
-As a user I can also view existing safes, without the right to interact with them (may be interesting for DAO treasuries' transparency).
+As a user I can also view existing vaults, without the right to interact with them (may be interesting for DAO treasuries' transparency).
 
 ## @dev
 
@@ -56,15 +56,15 @@ Custom kit of scaffold-eth components
 
 Factory contract code could be crafted for cheaper transactions if proper event indexing were used. 
 
-We don't have to include all owners and requiredConfirmations in Safe Created events. However, it's easier to provide good frontend functionality if that data is available directly from the events.
+We don't have to include all owners and requiredConfirmations in Vault Created events. However, it's easier to provide good frontend functionality if that data is available directly from the events.
 
 ### Rpc load
 
 This project uses no indexing. RPC requests are kept to a minimum but it may still be an issue. 
 
 It won't **scale well** if
-  - many MultiSig Safes created 
-  - many transactions within any one safe
+  - many MultiSig Vaults created 
+  - many transactions within any one vault
  the problems being speed and (probably) rpc server request caps. 
 
 So this is **not a production setup**.

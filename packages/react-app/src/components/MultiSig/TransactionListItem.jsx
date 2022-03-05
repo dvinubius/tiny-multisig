@@ -3,7 +3,7 @@ import { Button, Divider } from "antd";
 
 import { AppContext, LayoutContext } from "../../App";
 import MSTransactionOverview from "./MSTransactionOverview";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 import MSTransactionDetails from "./MSTransactionDetails";
 import {
   detailsHeightLarge,
@@ -17,7 +17,7 @@ import { ArrowsAltOutlined, LoginOutlined } from "@ant-design/icons";
 
 const TransactionListItem = function ({ transaction, onExpand, expanded }) {
   const { userAddress } = useContext(AppContext);
-  const { owners, confirmationsRequired: totalConfsNeeded } = useContext(MsSafeContext);
+  const { owners, confirmationsRequired: totalConfsNeeded } = useContext(MsVaultContext);
   const { widthAboveMsTxDetailsFit } = useContext(LayoutContext);
 
   const detailsHeight = widthAboveMsTxDetailsFit ? detailsHeightNarrow : detailsHeightLarge;

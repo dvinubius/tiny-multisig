@@ -13,21 +13,21 @@ import {
 } from "../../styles";
 import MSTransactionActions from "./MSTransactionActions";
 import { contentWrapperStyle, labelStyle } from "./MSTransactionStyles";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 import Owners from "./Owners";
 
 const MSTransactionDetails = ({ transaction, isSelfOwner }) => {
   const { userAddress, localProvider } = useContext(AppContext);
   const { widthAboveMsTxDetailsFit } = useContext(LayoutContext);
 
-  const { owners, confirmationsRequired: totalConfsNeeded, readContracts, writeContracts } = useContext(MsSafeContext);
+  const { owners, confirmationsRequired: totalConfsNeeded, readContracts, writeContracts } = useContext(MsVaultContext);
 
   // CONFIRMATIONS
 
   const [confirmations, setConfirmations] = useState();
   const [currentNumConfirmations, setCurrentNumConfirmations] = useState();
   const updateConfirmations = async () => {
-    const confProms = owners.map(o => readContracts.MultiSigSafe.isConfirmed(transaction.idx, o));
+    const confProms = owners.map(o => readContracts.MultiSigVault.isConfirmed(transaction.idx, o));
     const confs = await Promise.all(confProms);
     setConfirmations(confs);
     setCurrentNumConfirmations(confs.filter(c => c).length);
@@ -47,7 +47,7 @@ const MSTransactionDetails = ({ transaction, isSelfOwner }) => {
   const updateActions = async transaction => {
     const hasConfirmedSelf = !isSelfOwner
       ? false
-      : await readContracts.MultiSigSafe.isConfirmed(transaction.idx, userAddress);
+      : await readContracts.MultiSigVault.isConfirmed(transaction.idx, userAddress);
 
     if (!isSelfOwner || transaction.executed) {
       setCanConfirm(false);

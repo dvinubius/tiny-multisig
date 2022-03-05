@@ -42,7 +42,7 @@ function exportContracts(contractNames, destination) {
 async function main() {
   const destination = process.argv[2];
   // add any of your factory-created contracts here
-  const contracts = ["MultiSigSafe"];
+  const contracts = ["MultiSigVault"];
   const success = exportContracts(contracts, destination);
   if (success) {
     console.log(

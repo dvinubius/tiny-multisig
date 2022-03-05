@@ -13,7 +13,7 @@ import CreateModalSentOverlay from "../Shared/CreateModalSentOverlay";
 const { ethers } = require("ethers");
 
 const CreateMultiSig = () => {
-  const { userSigner, gasPrice, contractConfig, localChainId } = useContext(AppContext);
+  const { userSigner, gasPrice, contractConfig, localChainId, mainnetProvider } = useContext(AppContext);
   // The transactor wraps transactions and provides notificiations
   const tx = Transactor(userSigner, gasPrice);
 
@@ -96,18 +96,17 @@ const CreateMultiSig = () => {
     setNameError("");
     setOwners(["", ""]);
     setOwnersErrors(["", ""]);
-    setNumConfs(undefined);
+    setNumConfs(1);
   };
 
   const handleSubmit = async () => {
     try {
       const canGo = validateFields();
-
       if (!canGo) {
         return;
       }
       setPendingCreate(true);
-      const transaction = writeContracts.MSFactory.createMultiSigSafe(name, owners, numConfs);
+      const transaction = writeContracts.MSFactory.createMultiSigVault(name, owners, numConfs);
       setTxError(false);
       tx(transaction, update => {
         if (update && (update.error || update.reason)) {
@@ -129,6 +128,7 @@ const CreateMultiSig = () => {
       });
       setTxSent(true);
     } catch (e) {
+      setPendingCreate(false);
       // error messages will appear in form
       console.log("SUBMIT FAILED: ", e);
     }
@@ -164,12 +164,12 @@ const CreateMultiSig = () => {
     <div>
       <Button type="primary" size="large" onClick={() => setVisibleModal(true)}>
         <PlusOutlined />
-        Create Safe
+        Create Vault
       </Button>
 
       <Modal
         destroyOnClose={true}
-        title="Create MultiSig Safe"
+        title="Create MultiSig Vault"
         style={{ top: 120 }}
         visible={visibleModal}
         onOk={handleSubmit}
@@ -181,8 +181,8 @@ const CreateMultiSig = () => {
           <CreateModalSentOverlay
             txError={txError}
             txSuccess={txSuccess}
-            pendingText="Creating Safe"
-            successText="MultiSig Safe Created"
+            pendingText="Creating Vault"
+            successText="MultiSig Vault Created"
             errorText="Transaction Failed"
           />
         )}
@@ -222,6 +222,7 @@ const CreateMultiSig = () => {
                   </div>
                   <CustomAddressInput
                     placeholder={`Input address`}
+                    ensProvider={mainnetProvider}
                     address={owner}
                     onChange={v => updateOwner(v, idx)}
                     wrapperStyle={{ width: `${inputWidthRem}rem` }}

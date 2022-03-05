@@ -11,8 +11,8 @@ import {
   primaryColor,
   cardGradientVert,
   breakPointMsFit,
-  msSafeColWidthRem,
-  msSafeColGapRem,
+  msVaultColWidthRem,
+  msVaultColGapRem,
 } from "../../styles";
 import CustomAddress from "../CustomKit/CustomAddress";
 import { getContractConfigWithInjected } from "../../helpers/getContractConfigWithInjected";
@@ -25,15 +25,15 @@ import Requirements from "./Requirements";
 import MSTransactionsSection from "./MSTransactionsSection";
 import UserStatus from "../Shared/UserStatus";
 
-export const MsSafeContext = createContext({});
+export const MsVaultContext = createContext({});
 
 const MultiSig = ({ contract }) => {
   const { injectableAbis, localProvider, injectedProvider, userSigner, localChainId, userAddress } =
     useContext(AppContext);
 
   const contractConfig = getContractConfigWithInjected(
-    "MultiSigSafe",
-    injectableAbis.MultiSigSafe,
+    "MultiSigVault",
+    injectableAbis.MultiSigVault,
     contract.address,
     localChainId,
   );
@@ -72,9 +72,9 @@ const MultiSig = ({ contract }) => {
     contract && readContracts && writeContracts && owners && confirmationsRequired && !initializingTxs && multiSigTxs;
 
   return ready ? (
-    <MsSafeContext.Provider value={msWalletContext}>
+    <MsVaultContext.Provider value={msWalletContext}>
       <MultiSigDisplay balance={balance} userStatusDisplay={userStatusDisplay} />
-    </MsSafeContext.Provider>
+    </MsVaultContext.Provider>
   ) : (
     <div style={{ margin: "auto", display: "flex", alignItems: "center", justifyContent: "center", height: "30vh" }}>
       <Spin size="large" />
@@ -84,7 +84,7 @@ const MultiSig = ({ contract }) => {
 
 const MultiSigDisplay = ({ balance, userStatusDisplay }) => {
   const { price } = useContext(AppContext);
-  const { contract, readContracts, owners, confirmationsRequired } = useContext(MsSafeContext);
+  const { contract, readContracts, owners, confirmationsRequired } = useContext(MsVaultContext);
   const { widthAboveMsTxDetailsFit, widthAboveUserStatusDisplayFit } = useContext(LayoutContext);
   const labelStyle = {
     fontSize: "0.875rem",
@@ -123,7 +123,7 @@ const MultiSigDisplay = ({ balance, userStatusDisplay }) => {
             <div
               style={{
                 width: "100%",
-                maxWidth: widthAboveUserStatusDisplayFit ? `${msSafeColWidthRem * 2 + msSafeColGapRem}rem` : "100%",
+                maxWidth: widthAboveUserStatusDisplayFit ? `${msVaultColWidthRem * 2 + msVaultColGapRem}rem` : "100%",
                 margin: "0 auto 2rem",
               }}
             >
@@ -132,7 +132,7 @@ const MultiSigDisplay = ({ balance, userStatusDisplay }) => {
             <div
               style={{
                 display: "flex",
-                gap: `${msSafeColGapRem}rem`,
+                gap: `${msVaultColGapRem}rem`,
                 flexWrap: "wrap",
                 justifyContent: "center",
                 padding: "0 0 2rem",
@@ -141,7 +141,7 @@ const MultiSigDisplay = ({ balance, userStatusDisplay }) => {
             >
               <div
                 style={{
-                  width: `${msSafeColWidthRem}rem`,
+                  width: `${msVaultColWidthRem}rem`,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "stretch",
@@ -197,7 +197,7 @@ const MultiSigDisplay = ({ balance, userStatusDisplay }) => {
               </div>
               <div
                 style={{
-                  width: `${msSafeColWidthRem}rem`,
+                  width: `${msVaultColWidthRem}rem`,
                   overflow: "hidden",
                   display: "flex",
                   flexDirection: "column",

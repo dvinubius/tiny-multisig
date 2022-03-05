@@ -4,13 +4,13 @@ import React, { useContext, useState } from "react";
 import { AppContext, LayoutContext } from "../../App";
 import { mainColWidthRem, mediumButtonMinWidth, softTextColor } from "../../styles";
 import CreateMsTx from "./CreateMsTx";
-import { MsSafeContext } from "./MultiSig";
+import { MsVaultContext } from "./MultiSig";
 import TransactionListItem from "./TransactionListItem";
 
 const { TabPane } = Tabs;
 const MSTransactionsSection = () => {
   const { userAddress } = useContext(AppContext);
-  const { owners, msTransactions } = useContext(MsSafeContext);
+  const { owners, msTransactions } = useContext(MsVaultContext);
   const { widthAboveMsFit } = useContext(LayoutContext);
 
   const isSelfOwner = owners && owners.includes(userAddress);

@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./MultiSigSafe.sol";
+import "./MultiSigVault.sol";
 
 contract MSFactory {
-    address[] multiSigSafes;
+    address[] multiSigVaults;
 
     // not all of the fields are necessary, but they sure are useful
-    event CreateMultiSigSafe(
+    event CreateMultiSigVault(
         uint256 indexed contractId,
         address indexed contractAddress,
         address creator,
@@ -22,16 +22,16 @@ contract MSFactory {
     /**
         @param name for better frontend UX
      */
-    function createMultiSigSafe(
+    function createMultiSigVault(
         string memory name,
         address[] memory owners,
         uint256 confirmationsRequired
     ) public {
-        uint256 id = multiSigSafes.length;
-        MultiSigSafe mss = new MultiSigSafe(owners, confirmationsRequired);
-        multiSigSafes.push(address(mss));
+        uint256 id = multiSigVaults.length;
+        MultiSigVault mss = new MultiSigVault(owners, confirmationsRequired);
+        multiSigVaults.push(address(mss));
 
-        emit CreateMultiSigSafe(
+        emit CreateMultiSigVault(
             id,
             address(mss),
             msg.sender,
@@ -43,10 +43,10 @@ contract MSFactory {
     }
 
     function numberOfContracts() public view returns (uint256) {
-        return multiSigSafes.length;
+        return multiSigVaults.length;
     }
 
     function contractById(uint256 id) public view returns (address) {
-        return multiSigSafes[id];
+        return multiSigVaults[id];
     }
 }

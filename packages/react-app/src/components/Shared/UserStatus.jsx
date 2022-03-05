@@ -8,7 +8,7 @@ import OwnerMark from "./OwnerMark";
 
 const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
   const onCopy = () => {
-    navigator.clipboard.writeText(`${APP_URL}/safe/${idx}`);
+    navigator.clipboard.writeText(`${APP_URL}/vault/${idx}`);
     setTimeout(() => setCopyVisible(false), 1500);
   };
   const handleVisibleChange = v => setCopyVisible(v);
@@ -32,7 +32,7 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
   const ownerText = isSelfOwner && (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start" }}>
       <span>
-        You <span style={{ color: keywordColor }}>co-own</span> this safe.
+        You <span style={{ color: keywordColor }}>co-own</span> this vault.
       </span>
       <div style={{ marginLeft: "0.5rem" }}>
         <OwnerMark />
@@ -42,11 +42,11 @@ const UserStatus = ({ isSelfOwner, isSelfCreator, idx }) => {
 
   const creatorText = isSelfCreator && (
     <span>
-      You <span style={{ color: keywordColor }}>created</span> this safe.
+      You <span style={{ color: keywordColor }}>created</span> this vault.
     </span>
   );
 
-  const viewerText = !isSelfOwner && !isSelfCreator && <>You are not an owner of this safe.</>;
+  const viewerText = !isSelfOwner && !isSelfCreator && <>You are not an owner of this vault.</>;
 
   const message = (
     <div
