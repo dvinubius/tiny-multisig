@@ -4,6 +4,9 @@ An **minimal** multi sig wallet app built with scaffold eth.
 
 ## Live on [Rinkeby](https://tiny-multisig.surge.sh) 🤩
 
+![multisigJS](https://user-images.githubusercontent.com/32189942/156662507-2723b7c4-72bd-41d4-9640-fc8cb4ba24d0.png)
+
+
 In many ways just a Proof of Concept, not suitable for production.
 
 ## Specs
